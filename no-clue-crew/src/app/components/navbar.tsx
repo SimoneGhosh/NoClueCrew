@@ -12,8 +12,8 @@ const Navbar: React.FC = () => {
       style={{
         width: "400px",
         maxWidth: "96%",
-        margin: "16px auto", // center horizontally
-        padding: "12px 20px",
+        margin: "100px auto", // center horizontally
+        padding: "20px 20px",
         background: "#FFFDD0",
         display: "flex",
         alignItems: "center",
@@ -54,6 +54,7 @@ const Navbar: React.FC = () => {
             aria-label="Character stats"
             style={{
               position: "absolute",
+              zIndex: 100,
               right: 0,
               marginTop: 8,
               background: "#fff",
@@ -62,7 +63,6 @@ const Navbar: React.FC = () => {
               borderRadius: 8,
               boxShadow: "0 6px 18px rgba(0,0,0,0.12)",
               minWidth: 180,
-              zIndex: 50,
             }}
           >
             <div style={{ marginBottom: 8, fontWeight: 600 }}>Character</div>
