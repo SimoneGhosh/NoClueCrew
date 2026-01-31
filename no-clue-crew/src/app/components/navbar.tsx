@@ -1,18 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import StatsPopup from "./statsppup";
 
 const Navbar: React.FC = () => {
   const [showStats, setShowStats] = useState(false);
   const [health] = useState(100); // default health
   const [wealth] = useState(25); // default wealth
 
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [buttonCoords, setButtonCoords] = useState<{ top: number; left: number; height: number; width: number } | null>(null);
+
+  const toggleStats = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setButtonCoords({
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX,
+        height: rect.height,
+        width: rect.width,
+      });
+    }
+    setShowStats((prev) => !prev);
+  };
+
   return (
     <nav
       style={{
         width: "400px",
         maxWidth: "96%",
-        margin: "100px auto", // remove vertical margin because it's fixed
+        margin: "0 auto", // remove vertical margin because it's fixed
         padding: "12px 20px",
         background: "#FFFDD0",
         display: "flex",
@@ -39,64 +56,29 @@ const Navbar: React.FC = () => {
         No Clue Crew
       </div>
 
-      <div style={{ position: "relative" }}>
+       <div>
         <button
-          onClick={() => setShowStats((s) => !s)}
-          aria-expanded={showStats}
+          ref={buttonRef}
+          onClick={toggleStats}
           style={{
             padding: "6px 10px",
             borderRadius: 6,
-            border: "1px solid rgba(0,0,0,0.12)",
+            border: "5px solid rgba(9,121,54,0.89)",
             background: "#fff",
-            color: "black",
+            color: "green",
             cursor: "pointer",
           }}
         >
           Show Character Stats
         </button>
 
-        {showStats && (
-          <div
-            role="dialog"
-            aria-label="Character stats"
-            style={{
-              position: "absolute",
-              right: 0,
-              marginTop: 8,
-              background: "#fff",
-              color: "black",
-              padding: 12,
-              borderRadius: 8,
-              boxShadow: "0 6px 18px rgba(0,0,0,0.12)",
-              minWidth: 180,
-              zIndex: 50,
-            }}
-          >
-            <div style={{ marginBottom: 8, fontWeight: 600 }}>Character</div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Health</span>
-              <span>{health}</span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Wealth</span>
-              <span>{wealth}</span>
-            </div>
-            <div style={{ textAlign: "right", marginTop: 8 }}>
-              <button
-                onClick={() => setShowStats(false)}
-                style={{
-                  padding: "6px 8px",
-                  borderRadius: 6,
-                  border: "1px solid rgba(0,0,0,0.08)",
-                  background: "#eff1bf",
-                  color: "black",
-                  cursor: "pointer",
-                }}
-              >
-                Close
-              </button>
-            </div>
-          </div>
+         {showStats && buttonCoords && (
+          <StatsPopup
+            health={health}
+            wealth={wealth}
+            coords={buttonCoords}
+            onClose={() => setShowStats(false)}
+          />
         )}
       </div>
     </nav>
