@@ -24,3 +24,27 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@keyframes bushSway {
+  0%   { transform: rotate(-1deg); }
+  50%  { transform: rotate( 1deg); }
+  100% { transform: rotate(-1deg); }
+}
+
+.bush {
+  animation: bushSway 3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.startButton {
+  font-weight: bold;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.startButton:hover {
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  transform: scale(1.1)
+}
