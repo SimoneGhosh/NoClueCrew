@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { GoogleGenAI } from "@google/genai";
+
+const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
+const ai = new GoogleGenAI({ apiKey });
 
 /**
  * Server-side route handler that calls Google Gemini (Generative Language) API.
@@ -18,7 +22,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
-    const apiKey = process.env.GOOGLE_API_KEY;
     const prompt = `You are a friendly financial literacy educator for kids and teens aged ${age}. 
 A young person made this decision: "${choiceText}"
 The outcome was: "${resultText}"
@@ -29,49 +32,24 @@ Provide a brief, engaging explanation (2 short paragraphs) that:
 Keep language age-appropriate and concise.`;
 
     if (!apiKey) {
-      // fallback for local dev
-      return NextResponse.json({ text: "Generated fallback: " + resultText });
+      console.log("generateOutcome: GEMINI API key not set; returning fallback text");
+      return NextResponse.json({ text: `Tip: ${resultText}` });
     }
 
-    const resp = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generate",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          prompt: { text: prompt },
-          temperature: 0.7,
-          maxOutputTokens: 512,
-        }),
-      }
-    );
+    // Use the server-side client to call Gemini
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview", // adjust model name if needed
+      // some clients accept a single string; others expect structured contents
+      contents: [{ type: "text", text: prompt }],
+    });
 
-    if (!resp.ok) {
-      const errText = await resp.text();
-      console.error("Upstream error:", errText);
-      return NextResponse.json(
-        { error: "Upstream API error", details: errText },
-        { status: 502 }
-      );
-    }
-
-    const data = await resp.json();
-
-    // robust extraction of generated text
+    // best-effort extraction of generated text
     let text =
-      data?.candidates?.[0]?.content?.[0]?.text ||
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      data?.candidates?.[0]?.text ||
-      data?.output?.[0]?.content ||
-      null;
-
-    if (!text) {
-      // fallback: stringify a portion of response
-      text = JSON.stringify(data).slice(0, 1000);
-    }
+      // common shapes
+      (response as any)?.candidates?.[0]?.content?.[0]?.text ||
+      (response as any)?.text ||
+      (response as any)?.output?.[0]?.content?.map((c: any) => c.text || c?.plainText || c?.text)?.join(" ") ||
+      JSON.stringify(response).slice(0, 2000);
 
     return NextResponse.json({ text });
   } catch (err) {
