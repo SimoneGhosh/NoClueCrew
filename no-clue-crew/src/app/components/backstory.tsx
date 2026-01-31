@@ -7,7 +7,7 @@ type BackstoryProps = {
 };
 
 const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
-  const fullText = `Lila was born above a busy bakery in a cozy apartment. Her parents both worked full-time — her mom as a nurse, her dad in a delivery job — and money wasn’t unlimited, but they always made sure the bills were paid and there was enough for small treats. As a kid, Lila got small allowances and did tiny errands, learning that saving a little could go a long way.`;
+  const fullText = `Monty was born above a busy bakery in a cozy apartment. Her parents both worked full-time — her mom as a nurse, her dad in a delivery job — and money wasn’t unlimited, but they always made sure the bills were paid and there was enough for small treats. As a kid, Monty got small allowances and did tiny errands, learning that saving a little could go a long way.`;
 
   const [displayedText, setDisplayedText] = useState("");
   const [doneTyping, setDoneTyping] = useState(false);
