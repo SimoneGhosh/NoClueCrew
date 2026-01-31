@@ -2,27 +2,28 @@
 
 import { useState } from "react";
 import Landing from "./components/landingpage";
+import Intro from "./components/intro";
 import Backstory from "./components/backstory";
 import Main from "./components/start";
 import Navbar from "./components/navbar";
 
-type Stage = "landing" | "backstory" | "game";
+type Stage = "landing" | "intro" | "backstory" | "game";
 
 export default function Home() {
   const [stage, setStage] = useState<Stage>("landing");
 
-  if (stage === "landing") {
-    return <Landing onStart={() => setStage("backstory")} />;
-  }
-
-  if (stage === "backstory") {
-    return <Backstory onContinue={() => setStage("game")} />;
-  }
-
   return (
     <>
-      <Navbar />
-      <Main />
+      {/* Show navbar on everything except landing */}
+      {stage !== "landing" && <Navbar />}
+
+      {stage === "landing" && <Landing onStart={() => setStage("intro")} />}
+
+      {stage === "intro" && <Intro onNext={() => setStage("backstory")} />}
+
+      {stage === "backstory" && <Backstory onContinue={() => setStage("game")} />}
+
+      {stage === "game" && <Main />}
     </>
   );
 }
