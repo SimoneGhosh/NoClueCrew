@@ -10,7 +10,9 @@ const Header: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        position: "relative"
     }}>
+
       <div style={{
         width: "400px",
         height: "600px",
@@ -22,11 +24,32 @@ const Header: React.FC = () => {
         alignItems: "center",
         gap: "20px",
         position: "relative",
-        overflow: "hidden"
+        overflow: "hidden",
+        zIndex: 3
         
       }}>
+        <img
+  src="/images/money.png"
+  className="MoneyLeft"
+  style={{
+    position: "absolute",
+    opacity: 1,
+    pointerEvents: "none",
+    zIndex: 2
+  }}
+  />
+  <img
+  src="/images/money.png"
+  className="MoneyRight"
+  style={{
+    position: "absolute",
+    opacity: 1,
+    pointerEvents: "none",
+    zIndex: 2
+  }}
+  />
     {/* Bush Left */}
-<img
+    <img
   src="/images/bush.png"
   className="bush"
   style={{
@@ -35,7 +58,8 @@ const Header: React.FC = () => {
     left: "-15px",
     width: "200px",
     opacity: 1,
-    pointerEvents: "none"
+    pointerEvents: "none",
+    zIndex: 3
   }}
 />
 {/* Bush Center */}
@@ -49,7 +73,8 @@ const Header: React.FC = () => {
     transform: "translateX(-50%)",
     width: "200px",
     opacity: 1,
-    pointerEvents: "none"
+    pointerEvents: "none",
+    zIndex: 3
   }}
 />
 {/* Bush Right */}
@@ -62,7 +87,8 @@ const Header: React.FC = () => {
     right: "-20px",
     width: "200px",
     opacity: 1,
-    pointerEvents: "none"
+    pointerEvents: "none",
+    zIndex: 3
   }}
 />
 <div style={{
@@ -72,19 +98,26 @@ const Header: React.FC = () => {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  gap: "20px"
+  gap: "20px",
+  zIndex:3
 
 }}
 >
+  
+  
         <h1 style={{
-          color: "black"
+          color: "black",
+          zIndex: 3
         }}>GAME TITLE</h1>
         <button className="startButton" style={{
           color: "black"
         }}>START</button>
+        
         </div>
+      
     </div>
     </div>
+    
   );
 };
 

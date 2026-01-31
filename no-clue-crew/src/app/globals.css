@@ -48,3 +48,32 @@ body {
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
   transform: scale(1.1)
 }
+
+@keyframes fallZigZag {
+  0%   { transform: translate(0, -80px); opacity: 0; }
+  10%  { opacity: 1; }
+  25%  { transform: translate(-20px, 120px); }
+  50%  { transform: translate(20px, 260px); }
+  75%  { transform: translate(-20px, 420px); }
+  100% { transform: translate(0, 600px); opacity: 0; }
+}
+
+.MoneyLeft {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 200px;
+  pointer-events: none;
+  animation: fallZigZag 5s linear infinite;
+}
+
+.MoneyRight {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  width: 200px;
+  pointer-events: none;
+  animation: fallZigZag 4s linear infinite;
+}
+
+
