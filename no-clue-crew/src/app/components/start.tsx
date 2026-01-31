@@ -1,24 +1,24 @@
 // components/start.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import YearModal from "./modal";
 import dataArray from "./gamestory";
 
 const Main: React.FC = () => {
   const baseAge = 14; // starting age
-  const [showStory, setShowStory] = useState(false);
+  const [showStory, setShowStory] = useState(true); // start directly on background story
   const [modalVisible, setModalVisible] = useState(false);
   const [age, setAge] = useState<number | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const [hasChosen, setHasChosen] = useState(false);
 
-  const handleStart = () => {
-    setAge(baseAge);
-    setShowStory(true);
-    setOutcome(null);
-    setHasChosen(false);
-  };
+  // ensure age is initialized when showing the story
+  useEffect(() => {
+    if (showStory && age == null) {
+      setAge(baseAge);
+    }
+  }, [showStory, age]);
 
   const currentStory = (() => {
     if (age == null) return undefined;
@@ -57,7 +57,7 @@ const Main: React.FC = () => {
 
     setModalVisible(false);
     setHasChosen(true);
-    setShowStory(false); // return to main screen per prompt
+    setShowStory(false); // return to main screen per previous behavior
   };
 
   return (
@@ -72,88 +72,52 @@ const Main: React.FC = () => {
         boxSizing: "border-box",
       }}
     >
-      {!showStory ? (
-        <div
-          style={{
-            width: 400,
-            height: 600,
-            backgroundColor: "#FFFDD0",
-            borderRadius: 20,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 20,
-            position: "relative",
-            overflow: "hidden",
-            padding: 20,
-            color: "black",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#eff1bf",
-              padding: "30px 40px",
-              borderRadius: 15,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 20,
-              color: "black",
+      {/* Background story shown by default */}
+      <div
+        style={{
+          width: 400,
+          height: 600,
+          backgroundColor: "#FFFDD0",
+          borderRadius: 20,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 20,
+          textAlign: "center",
+          gap: 16,
+          color: "black",
+          marginTop: "-180px",
+        }}
+      >
+        <h1 style={{ color: "black" }}>Background Story</h1>
+        <p style={{ color: "black" }}>
+          Lila was born above a busy bakery in a cozy apartment. Her parents both worked full-time — her mom as a nurse,
+          her dad in a delivery job — and money wasn’t unlimited, but they always made sure the bills were paid and there
+          was enough for small treats. As a kid, Lila got small allowances and did tiny errands, learning that saving a
+          little could go a long way.
+        </p>
+
+        <button onClick={handleIncreaseAge} style={{ padding: "8px 12px", color: "black" }}>
+          Increase Age
+        </button>
+
+        {age !== null && <p style={{ color: "black" }}>Character age: {age}</p>}
+        {outcome && <p style={{ color: "black" }}>{outcome}</p>}
+
+        {/* CONTINUE button appears after a choice has been made */}
+        {hasChosen && (
+          <button
+            onClick={() => {
+              setShowStory(true);
+              setHasChosen(false);
             }}
+            style={{ marginTop: 8, color: "black" }}
           >
-            <h1 style={{ color: "black" }}>{hasChosen ? "" : "GAME TITLE"}</h1>
-
-            {!hasChosen ? (
-              <button onClick={handleStart} style={{ color: "black" }}>
-                START
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  // Continue could re-open story view
-                  setShowStory(true);
-                }}
-                style={{ color: "black" }}
-              >
-                CONTINUE
-              </button>
-            )}
-
-            {age !== null && <p style={{ color: "black" }}>Character age: {age}</p>}
-            {outcome && <p style={{ color: "black" }}>{outcome}</p>}
-          </div>
-        </div>
-      ) : (
-        <div
-          style={{
-            width: 400,
-            height: 600,
-            backgroundColor: "#FFFDD0",
-            borderRadius: 20,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 20,
-            textAlign: "center",
-            gap: 16,
-            color: "black",
-          }}
-        >
-          <h1 style={{ color: "black" }}>Background Story</h1>
-          <p style={{ color: "black" }}>
-            Lila was born above a busy bakery in a cozy apartment. Her parents both worked full-time — her mom as a nurse,
-            her dad in a delivery job — and money wasn’t unlimited, but they always made sure the bills were paid and there
-            was enough for small treats. As a kid, Lila got small allowances and did tiny errands, learning that saving a
-            little could go a long way.
-          </p>
-
-          <button onClick={handleIncreaseAge} style={{ padding: "8px 12px", color: "black" }}>
-            Increase Age
+            CONTINUE
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       <YearModal
         open={modalVisible}

@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
       style={{
         width: "400px",
         maxWidth: "96%",
-        margin: "0 auto", // remove vertical margin because it's fixed
+        margin: "100px auto", // remove vertical margin because it's fixed
         padding: "12px 20px",
         background: "#FFFDD0",
         display: "flex",
