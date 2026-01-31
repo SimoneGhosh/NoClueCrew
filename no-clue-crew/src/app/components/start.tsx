@@ -98,7 +98,16 @@ const Main: React.FC = () => {
           little could go a long way.
         </p>
 
-        <button onClick={handleIncreaseAge} style={{ padding: "8px 12px", color: "black" }}>
+        <button onClick={handleIncreaseAge} style={{ background: "#FADADD", // pastel pink
+                                                      color: "#4A3F35",
+                                                      border: "none",
+                                                      borderRadius: 20,
+                                                      padding: "10px 18px",
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      cursor: "pointer",
+                                                      boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+                                                      transition: "transform 0.15s ease, box-shadow 0.15s ease"}}>
           Increase Age
         </button>
 
