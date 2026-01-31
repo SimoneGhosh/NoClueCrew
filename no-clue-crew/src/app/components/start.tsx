@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from "react";
 import YearModal from "./modal";
 import dataArray from "./gamestory";
-import { useGameStats } from "./GameStatsContext";
 
 const Main: React.FC = () => {
   const baseAge = 14; // starting age
@@ -13,7 +12,6 @@ const Main: React.FC = () => {
   const [age, setAge] = useState<number | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const [hasChosen, setHasChosen] = useState(false);
-  const {wealth, setWealth, happiness, setHappiness } = useGameStats();
   const [showLearnMore, setShowLearnMore] = useState(false);
   const [educationalContent, setEducationalContent] = useState<string>("");
   const [isLoadingContent, setIsLoadingContent] = useState(false);
@@ -46,11 +44,6 @@ const Main: React.FC = () => {
     setModalVisible(true);
   };
 
-
-  // Function to apply effects
-  const applyChoiceEffects = (effects: { wealth: number, happiness: number}) => {
-    setWealth((prev) => prev + (effects.wealth || 0));
-    setHappiness((prev) => prev + (effects.happiness || 0));
   const fetchEducationalContent = async (choice: "A" | "B", story: any) => {
     setIsLoadingContent(true);
 
@@ -102,11 +95,6 @@ const Main: React.FC = () => {
     setOutcome(resultText);
     setLastChoice(choice);
     setShowLearnMore(true);
-
-    const effects = choice === "A" ? story.choiceAEffects : story.choiceBEffects;
-    if (effects) {
-      applyChoiceEffects(effects);
-    }
 
     // advance age by story.increaseAge
     setAge((prev) => {
@@ -160,24 +148,25 @@ const Main: React.FC = () => {
           overflowY: "auto",
         }}
       >
-
-
-        <button onClick={handleIncreaseAge} style={{
-          border: "none",
-          borderRadius: 20,
-          padding: "10px 18px",
-          fontSize: 14,
-          fontWeight: 500,
-          background: "#FADADD", // pastel pink
-          color: "#4A3F35",
-          cursor: "pointer",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
-          transition: "transform 0.15s ease, box-shadow 0.15s ease",
-        }}>
+        <button 
+          onClick={handleIncreaseAge} 
+          style={{ 
+            background: "#FADADD",
+            color: "#4A3F35",
+            border: "none",
+            borderRadius: 20,
+            padding: "10px 18px",
+            fontSize: 14,
+            fontWeight: 500,
+            cursor: "pointer",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+            transition: "transform 0.15s ease, box-shadow 0.15s ease",
+          }}
+        >
           Increase Age
         </button>
 
-        {age !== null && <p style={{ fontWeight: 700, color: "black" }}>Character age: {age}</p>}
+        {age !== null && <p style={{ color: "black", fontWeight: 600 }}>Character age: {age}</p>}
         
         {outcome && (
           <div style={{ 

@@ -29,13 +29,8 @@ const Navbar: React.FC = () => {
       style={{
         width: "400px",
         maxWidth: "96%",
-<<<<<<< HEAD
-        margin: "100px auto", // center horizontally
-        padding: "20px 20px",
-=======
         margin: "0 auto", // remove vertical margin because it's fixed
         padding: "12px 20px",
->>>>>>> d0c9629d1670cad441e851ab496094fee37b4874
         background: "#FFFDD0",
         display: "flex",
         alignItems: "center",
