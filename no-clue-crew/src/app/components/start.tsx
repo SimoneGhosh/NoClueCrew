@@ -105,18 +105,7 @@ const Main: React.FC = () => {
         {age !== null && <p style={{ color: "black" }}>Character age: {age}</p>}
         {outcome && <p style={{ color: "black" }}>{outcome}</p>}
 
-        {/* CONTINUE button appears after a choice has been made */}
-        {hasChosen && (
-          <button
-            onClick={() => {
-              setShowStory(true);
-              setHasChosen(false);
-            }}
-            style={{ marginTop: 8, color: "black" }}
-          >
-            CONTINUE
-          </button>
-        )}
+       
       </div>
 
       <YearModal

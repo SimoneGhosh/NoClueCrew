@@ -108,9 +108,31 @@ const Header: React.FC<LandingProps> = ({ onStart }) => {
             alignItems: "center",
             gap: "20px",
             zIndex: 3,
+            opacity: 0.9
           }}
         >
-          <h1 style={{ color: "black", zIndex: 3 }}>GAME TITLE</h1>
+          <h1
+  style={{
+    fontSize: "50px",
+    fontWeight: "900",
+    color: "#4CAF50",
+    textShadow: `
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      0 3px 3px rgba(0,0,0,0)
+    `,
+    fontFamily: "Comic Sans MS, Arial Black, sans-serif",
+    letterSpacing: "2px",
+    margin: 0,
+    zIndex: 3,
+    opacity: 1
+  }}
+>
+  MoneyGrow
+</h1>
+
           <button
             className="startButton"
             style={{ color: "black" }}
