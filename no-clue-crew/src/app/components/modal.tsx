@@ -1,13 +1,17 @@
+"use client";
+
 import React from "react";
 
 interface YearModalProps {
   open: boolean;
   age: number | null;
-  onChoose: (choiceId: string) => void;
+  choiceA?: string;
+  choiceB?: string;
+  onChoose: (choice: "A" | "B") => void;
   onClose: () => void;
 }
 
-const YearModal: React.FC<YearModalProps> = ({ open, age, onChoose, onClose }) => {
+const YearModal: React.FC<YearModalProps> = ({ open, age, choiceA, choiceB, onChoose, onClose }) => {
   if (!open) return null;
 
   return (
@@ -26,7 +30,7 @@ const YearModal: React.FC<YearModalProps> = ({ open, age, onChoose, onClose }) =
     >
       <div
         style={{
-          width: "360px",
+          width: 360,
           background: "#fff",
           borderRadius: 12,
           padding: 20,
@@ -34,22 +38,21 @@ const YearModal: React.FC<YearModalProps> = ({ open, age, onChoose, onClose }) =
           flexDirection: "column",
           gap: 12,
           alignItems: "center",
-          color: "black", // modal text black
+          color: "black",
         }}
       >
-        <h3 style={{ margin: 0, color: "black" }}>Choose what happens this year</h3>
-        <p style={{ margin: 0, color: "black" }}>{age !== null ? `Age ${age}` : ""}</p>
+        <h3 style={{ margin: 0 }}>Choose what happens this year</h3>
+        <p style={{ margin: 0 }}>{age !== null ? `Age ${age}` : ""}</p>
+
         <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={() => onChoose("c1")} style={{ color: "black" }}>
-            Choice 1
+          <button onClick={() => onChoose("A")} style={{ color: "black" }}>
+            {choiceA ?? "Choice 1"}
           </button>
-          <button onClick={() => onChoose("c2")} style={{ color: "black" }}>
-            Choice 2
-          </button>
-          <button onClick={() => onChoose("c3")} style={{ color: "black" }}>
-            Neutral
+          <button onClick={() => onChoose("B")} style={{ color: "black" }}>
+            {choiceB ?? "Choice 2"}
           </button>
         </div>
+
         <button onClick={onClose} style={{ marginTop: 8, color: "black" }}>
           Cancel
         </button>

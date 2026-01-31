@@ -3,38 +3,61 @@
 
 import React, { useState } from "react";
 import YearModal from "./modal";
+import dataArray from "./gamestory";
 
 const Header: React.FC = () => {
-  const baseAge = 7; // starting age if age was never set
+  const baseAge = 14; // starting age
   const [showStory, setShowStory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [age, setAge] = useState<number | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
+  const [hasChosen, setHasChosen] = useState(false);
 
   const handleStart = () => {
+    setAge(baseAge);
     setShowStory(true);
+    setOutcome(null);
+    setHasChosen(false);
   };
 
-  // Increase age immediately by 1, then open modal for choices
+  const currentStory = (() => {
+    if (age == null) return undefined;
+    return dataArray.data.stories.find((s) => s.age === age);
+  })();
+
   const handleIncreaseAge = () => {
-    setAge((prev) => (prev ?? baseAge) + 1);
+    // open modal for current age story choices
+    if (!currentStory) {
+      // no story for this age — try to find first story matching >= age
+      const fallback = dataArray.data.stories.find((s) => s.age >= (age ?? baseAge));
+      if (fallback) {
+        setAge(fallback.age);
+      }
+    }
     setModalVisible(true);
   };
 
-  // choiceId: "c1", "c2", or "c3"
-  const handleChooseOutcome = (choiceId: string) => {
-    let text = "";
-    if (choiceId === "c1") {
-      text = `At age ${age}, Lila focused on learning a new skill that year — she earned small rewards and gained confidence.`;
-    } else if (choiceId === "c2") {
-      text = `At age ${age}, Lila decided to spend some savings on a meaningful purchase — it changed her experiences that year.`;
-    } else {
-      text = `At age ${age}, it was a quieter year: she practiced patience and saved, preparing for future choices.`;
+  const handleChooseOutcome = (choice: "A" | "B") => {
+    const story = currentStory ?? dataArray.data.stories.find((s) => s.age === (age ?? baseAge));
+    if (!story) {
+      setOutcome("No story available for this age.");
+      setModalVisible(false);
+      setHasChosen(true);
+      return;
     }
 
-    setOutcome(text);
+    const resultText = choice === "A" ? story.resultA : story.resultB;
+    setOutcome(resultText);
+
+    // advance age by story.increaseAge
+    setAge((prev) => {
+      const prevAge = prev ?? story.age;
+      return prevAge + (Number(story.increaseAge) || 0);
+    });
+
     setModalVisible(false);
-    setShowStory(false); // return to main screen
+    setHasChosen(true);
+    setShowStory(false); // return to main screen per prompt
   };
 
   return (
@@ -45,146 +68,98 @@ const Header: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-
-        // NEW: add top padding so the fixed navbar doesn't cover content
-        paddingTop: "240px", // adjust to be >= navbar top + height (200px max + gap)
+        paddingTop: "240px",
         boxSizing: "border-box",
       }}
     >
       {!showStory ? (
         <div
           style={{
-            width: "400px",
-            height: "600px",
+            width: 400,
+            height: 600,
             backgroundColor: "#FFFDD0",
-            borderRadius: "20px",
+            borderRadius: 20,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            gap: "20px",
+            gap: 20,
             position: "relative",
             overflow: "hidden",
-            padding: "20px",
-            color: "black", // make all text inside black
+            padding: 20,
+            color: "black",
           }}
         >
-          {/* Bush Left */}
-          <img
-            src="/images/bush.png"
-            className="bush"
-            style={{
-              position: "absolute",
-              bottom: "-35px",
-              left: "-15px",
-              width: "200px",
-              opacity: 1,
-              pointerEvents: "none",
-            }}
-          />
-          {/* Bush Center */}
-          <img
-            src="/images/bush.png"
-            className="bush"
-            style={{
-              position: "absolute",
-              bottom: "-35px",
-              left: "20%",
-              transform: "translateX(-50%)",
-              width: "200px",
-              opacity: 1,
-              pointerEvents: "none",
-            }}
-          />
-          {/* Bush Right */}
-          <img
-            src="/images/bush.png"
-            className="bush"
-            style={{
-              position: "absolute",
-              bottom: "-35px",
-              right: "-20px",
-              width: "200px",
-              opacity: 1,
-              pointerEvents: "none",
-            }}
-          />
           <div
             style={{
               backgroundColor: "#eff1bf",
               padding: "30px 40px",
-              borderRadius: "15px",
+              borderRadius: 15,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "20px",
-              color: "black", // ensure text black inside panel
+              gap: 20,
+              color: "black",
             }}
           >
-            <h1 style={{ color: "black" }}>GAME TITLE</h1>
-            <button
-              className="startButton"
-              style={{ color: "black" }}
-              onClick={handleStart}
-            >
-              START
-            </button>
+            <h1 style={{ color: "black" }}>{hasChosen ? "CONTINUE" : "GAME TITLE"}</h1>
 
-            {/* Show current age and last outcome if available */}
-            {age !== null && (
-              <p style={{ color: "black", marginTop: "10px" }}>
-                Character age: {age}
-              </p>
+            {!hasChosen ? (
+              <button onClick={handleStart} style={{ color: "black" }}>
+                START
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  // Continue could re-open story view
+                  setShowStory(true);
+                }}
+                style={{ color: "black" }}
+              >
+                CONTINUE
+              </button>
             )}
-            {outcome && (
-              <p style={{ color: "black", marginTop: "8px" }}>{outcome}</p>
-            )}
+
+            {age !== null && <p style={{ color: "black" }}>Character age: {age}</p>}
+            {outcome && <p style={{ color: "black" }}>{outcome}</p>}
           </div>
         </div>
       ) : (
         <div
           style={{
-            width: "400px",
-            height: "600px",
+            width: 400,
+            height: 600,
             backgroundColor: "#FFFDD0",
-            borderRadius: "20px",
+            borderRadius: 20,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: "20px",
+            padding: 20,
             textAlign: "center",
-            gap: "16px",
-            color: "black", // story screen text black
+            gap: 16,
+            color: "black",
           }}
         >
-          <h1 style={{ color: "black" }}>Lila Martinez</h1>
+          <h1 style={{ color: "black" }}>Background Story</h1>
           <p style={{ color: "black" }}>
-            Lila was born above a busy bakery in a cozy apartment. 
-            Her parents both worked full-time — her mom as a nurse, 
-            her dad in a delivery job — and money wasn’t unlimited, 
-            but they always made sure the bills were paid and there 
-            was enough for small treats. As a kid, Lila got small 
-            allowances and did tiny errands, learning that saving a 
-            little could go a long way. At age 7, she had her first 
-            big choice: spend her money on a toy robot, or save up for 
-            a shiny new bike? By age 10, Lila loved keeping track of her 
-            coins, dreaming about the bigger rewards waiting if she planned 
-            ahead.
+            Lila was born above a busy bakery in a cozy apartment. Her parents both worked full-time — her mom as a nurse,
+            her dad in a delivery job — and money wasn’t unlimited, but they always made sure the bills were paid and there
+            was enough for small treats. As a kid, Lila got small allowances and did tiny errands, learning that saving a
+            little could go a long way.
           </p>
-          <button
-            onClick={handleIncreaseAge}
-            style={{ padding: "8px 12px", color: "black" }}
-          >
+
+          <button onClick={handleIncreaseAge} style={{ padding: "8px 12px", color: "black" }}>
             Increase Age
           </button>
         </div>
       )}
 
-      {/* Modal component */}
       <YearModal
         open={modalVisible}
-        age={age}
+        age={currentStory ? currentStory.age : age}
+        choiceA={currentStory ? currentStory.choiceA : undefined}
+        choiceB={currentStory ? currentStory.choiceB : undefined}
         onChoose={handleChooseOutcome}
         onClose={() => setModalVisible(false)}
       />
