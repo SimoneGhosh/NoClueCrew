@@ -44,6 +44,13 @@ const Main: React.FC = () => {
     setModalVisible(true);
   };
 
+
+  // Function to apply effects
+  const applyChoiceEffects = (effects: { wealth: number, happiness: number}) => {
+    setWealth((prev) => prev + (effects.wealth || 0));
+    setHappiness((prev) => prev + (effects.happiness || 0));
+  };
+  
   const fetchEducationalContent = async (choice: "A" | "B", story: any) => {
     setIsLoadingContent(true);
 
@@ -95,6 +102,11 @@ const Main: React.FC = () => {
     setOutcome(resultText);
     setLastChoice(choice);
     setShowLearnMore(true);
+
+    const effects = choice === "A" ? story.choiceAeffects : story.choiceBeffects;
+    if (effects) {
+      applyChoiceEffects(effects);
+    }
 
     // advance age by story.increaseAge
     setAge((prev) => {
