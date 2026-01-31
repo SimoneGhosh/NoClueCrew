@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -6,22 +7,38 @@ import Intro from "./components/intro";
 import Backstory from "./components/backstory";
 import Main from "./components/start";
 import Navbar from "./components/navbar";
-import { GameStatsProvider } from "./components/GameStatsContext"; // <-- import the provider
+import FinalPage from "./components/finalPage";
+import { GameStatsProvider, useGameStats } from "./components/GameStatsContext";
 
-type Stage = "landing" | "intro" | "backstory" | "game";
+type Stage = "landing" | "intro" | "backstory" | "game" | "gameover";
 
-export default function Home() {
+// Move all app logic into a child component
+function AppStages() {
   const [stage, setStage] = useState<Stage>("landing");
+  const { setWealth, setHappiness } = useGameStats();
+
+  const handleReset = () => {
+    setWealth(500);      // or your starting value
+    setHappiness(50);    // or your starting value
+    setStage("landing");
+  };
 
   return (
-    <GameStatsProvider>
-      {/* Show navbar on everything except landing */}
+    <>
       {stage !== "landing" && <Navbar />}
-
       {stage === "landing" && <Landing onStart={() => setStage("intro")} />}
       {stage === "intro" && <Intro onNext={() => setStage("backstory")} />}
       {stage === "backstory" && <Backstory onContinue={() => setStage("game")} />}
-      {stage === "game" && <Main />}
+      {stage === "game" && <Main onGameOver={() => setStage("gameover")} />}
+      {stage === "gameover" && <FinalPage onReset={handleReset} />}
+    </>
+  );
+}
+
+export default function Home() {
+  return (
+    <GameStatsProvider>
+      <AppStages />
     </GameStatsProvider>
   );
 }
