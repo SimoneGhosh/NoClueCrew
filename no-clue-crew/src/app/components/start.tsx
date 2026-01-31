@@ -52,9 +52,9 @@ const Header: React.FC = () => {
             width: "400px",
             height: "600px",
             backgroundColor: "#FFFDD0",
+            marginTop: "-230px",
             borderRadius: "20px",
             display: "flex",
-            marginTop: '-410px',
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
@@ -142,16 +142,16 @@ const Header: React.FC = () => {
           style={{
             width: "400px",
             height: "600px",
+            marginTop: "-230px",
             backgroundColor: "#FFFDD0",
             borderRadius: "20px",
             display: "flex",
-            marginTop: '-410px',
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             padding: "20px",
             textAlign: "center",
-            gap: "3px",
+            gap: "16px",
             color: "black", // story screen text black
           }}
         >
