@@ -55,12 +55,23 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
           gap: 16,
         }}
       >
-        <h1>Background Story</h1>
+        <h1 style={{fontWeight: 700}}>Background Story</h1>
 
         <p style={{ maxWidth: 320 }}>{displayedText}</p>
 
         {doneTyping && (
-          <button onClick={onContinue} style={{ marginTop: 20 }}>
+          <button onClick={onContinue} 
+          style={{ background: "#FADADD", // pastel pink
+            color: "#4A3F35", 
+            marginTop: 20,
+            border: "none",
+            borderRadius: 20,
+            padding: "10px 18px",
+            fontSize: 14,
+            fontWeight: 500,
+            cursor: "pointer",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+            transition: "transform 0.15s ease, box-shadow 0.15s ease",}}>
             Continue
           </button>
         )}
