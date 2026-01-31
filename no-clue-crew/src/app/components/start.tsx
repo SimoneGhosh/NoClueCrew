@@ -180,7 +180,7 @@ const Main: React.FC = () => {
           Increase Age
         </button>
 
-        {age !== null && <p style={{ color: "black", fontWeight: 600 }}>Character age: {age}</p>}
+        {age !== null && <p style={{ color: "black", fontWeight: 600 }}> Monty is {age} years old</p>}
         
         {outcome && (
           <div style={{ 

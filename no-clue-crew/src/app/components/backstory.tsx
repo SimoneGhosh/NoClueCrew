@@ -7,7 +7,7 @@ type BackstoryProps = {
 };
 
 const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
-  const fullText = 'Monty was born above a busy bakery in a cozy apartment. Her parents both worked full-time — her mom as a nurse, her dad in a delivery job — and money wasn’t unlimited, but they always made sure the bills were paid and there was enough for small treats. As a kid, Monty got small allowances and did tiny errands, learning that saving a little could go a long way.';
+  const fullText = "Monty moved from a quiet farmland to a bustling little town, where every street corner holds a new surprise and she must decide how to spend, save, and share her pocket money. As she explores, Monty discovers that money, like the seeds she once planted, grows slowly with care, and that thoughtful choices can turn small coins into bigger opportunities and fun lessons for the future.";
 
   const [displayedText, setDisplayedText] = useState("");
   const [doneTyping, setDoneTyping] = useState(false);

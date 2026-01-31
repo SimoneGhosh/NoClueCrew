@@ -23,7 +23,7 @@ const Header: React.FC<LandingProps> = ({ onStart }) => {
         style={{
           width: "400px",
           height: "600px",
-          backgroundColor: "#FFFDD0",
+          backgroundColor: "#FADADD",
           borderRadius: "20px",
           display: "flex",
           flexDirection: "column",

@@ -1,4 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { GoogleGenAI } from "@google/genai";
+
+const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
+const ai = new GoogleGenAI({ apiKey });
+
+/**
+ * Server-side route handler that calls Google Gemini (Generative Language) API.
+ * - Set GOOGLE_API_KEY in your environment (server only).
+ * - This file uses the app router route handler location: /src/app/api/generateOutcome/route.ts
+ *
+ * The handler is defensive: if GOOGLE_API_KEY is not set or the upstream call fails,
+ * it will return a simple fallback string so development can continue.
+ */
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,75 +22,39 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
-    const prompt = `You are a friendly financial literacy educator for kids and teens aged ${age}.
+    const prompt = `You are a friendly financial literacy educator for kids and teens aged 10. 
 A young person made this decision: "${choiceText}"
 The outcome was: "${resultText}"
-Provide a brief, engaging explanation (2 short sentences) that:
+Provide a brief, engaging explanation (2 short sentences ) that:
 1) Explains the financial concept in simple terms
 2) Gives a practical tip or example
 3) Encourages smart money habits in a positive tone.
 Keep language age-appropriate and concise.`;
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
-    console.log("generateOutcome: OPENROUTER_API_KEY present?", Boolean(apiKey));
-
     if (!apiKey) {
-      console.log("generateOutcome: OPENROUTER_API_KEY not set — returning fallback text");
+      console.log("generateOutcome: GEMINI API key not set; returning fallback text");
       return NextResponse.json({ text: `Tip: ${resultText}` });
     }
 
-    const url = "https://openrouter.ai/api/v1/chat/completions";
+    // Use the server-side client to call Gemini
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview", // adjust model name if needed
+      // some clients accept a single string; others expect structured contents
+      // pass the prompt as a plain string to match the client's Part type
+      contents: [prompt],
+    });
 
-    let resp;
-    try {
-      resp = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.7,
-          max_tokens: 512,
-        }),
-      });
-    } catch (fetchErr: any) {
-      console.error("generateOutcome: fetch threw:", fetchErr);
-      return NextResponse.json(
-        {
-          error: "Upstream fetch failed",
-          details: String(fetchErr?.message ?? fetchErr),
-          text: `Tip: ${resultText}`,
-        },
-        { status: 502 }
-      );
-    }
+    // best-effort extraction of generated text
+    let text =
+      // common shapes
+      (response as any)?.candidates?.[0]?.content?.[0]?.text ||
+      (response as any)?.text ||
+      (response as any)?.output?.[0]?.content?.map((c: any) => c.text || c?.plainText || c?.text)?.join(" ") ||
+      JSON.stringify(response).slice(0, 2000);
 
-    const respText = await resp.text();
-    console.log("generateOutcome: openrouter status", resp.status);
-    console.log("generateOutcome: upstream response (truncated):", respText.slice(0, 2000));
-
-    if (!resp.ok) {
-      return NextResponse.json({ error: "Upstream API error", details: respText, text: `Tip: ${resultText}` }, { status: 502 });
-    }
-
-    let data: any = {};
-    try {
-      data = JSON.parse(respText);
-    } catch (e) {
-      console.warn("generateOutcome: invalid JSON from upstream, using raw text");
-    }
-
-    const text =
-      data?.choices?.[0]?.message?.content ||
-      data?.choices?.[0]?.text ||
-      (typeof respText === "string" ? respText : JSON.stringify(data).slice(0, 2000));
-
-    return NextResponse.json({ text: String(text) });
+    return NextResponse.json({ text });
   } catch (err) {
     console.error("generateOutcome route error:", err);
-    return NextResponse.json({ error: "Server error", details: String(err) }, { status: 500 });
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
