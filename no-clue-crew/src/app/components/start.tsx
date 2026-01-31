@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import YearModal from "./modal";
 import dataArray from "./gamestory";
 
-const Header: React.FC = () => {
+const Main: React.FC = () => {
   const baseAge = 14; // starting age
   const [showStory, setShowStory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -102,7 +102,7 @@ const Header: React.FC = () => {
               color: "black",
             }}
           >
-            <h1 style={{ color: "black" }}>{hasChosen ? "CONTINUE" : "GAME TITLE"}</h1>
+            <h1 style={{ color: "black" }}>{hasChosen ? "" : "GAME TITLE"}</h1>
 
             {!hasChosen ? (
               <button onClick={handleStart} style={{ color: "black" }}>
@@ -167,4 +167,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default Main;
