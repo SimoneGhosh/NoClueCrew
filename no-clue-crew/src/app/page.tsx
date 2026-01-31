@@ -1,28 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
+import Landing from "./components/landingpage";
+import Backstory from "./components/backstory";
 import Main from "./components/start";
 import Navbar from "./components/navbar";
-import Landing from "./components/landingpage";
+
+type Stage = "landing" | "backstory" | "game";
 
 export default function Home() {
-  const [started, setStarted] = useState(false);
+  const [stage, setStage] = useState<Stage>("landing");
 
-  const goToMain = () => {
-    setStarted(true);
-  };
+  if (stage === "landing") {
+    return <Landing onStart={() => setStage("backstory")} />;
+  }
+
+  if (stage === "backstory") {
+    return <Backstory onContinue={() => setStage("game")} />;
+  }
 
   return (
     <>
-      {started ? (
-        <>
-          <Navbar />
-          <Main />
-        </>
-      ) : (
-        <Landing onStart={goToMain} />
-      )}
+      <Navbar />
+      <Main />
     </>
   );
 }
-

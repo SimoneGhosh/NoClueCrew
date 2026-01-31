@@ -90,14 +90,8 @@ const Main: React.FC = () => {
           marginTop: "-180px",
         }}
       >
-        <h1 style={{ color: "black" }}>Background Story</h1>
-        <p style={{ color: "black" }}>
-          Lila was born above a busy bakery in a cozy apartment. Her parents both worked full-time — her mom as a nurse,
-          her dad in a delivery job — and money wasn’t unlimited, but they always made sure the bills were paid and there
-          was enough for small treats. As a kid, Lila got small allowances and did tiny errands, learning that saving a
-          little could go a long way.
-        </p>
-
+      
+        
         <button onClick={handleIncreaseAge} style={{ padding: "8px 12px", color: "black" }}>
           Increase Age
         </button>
