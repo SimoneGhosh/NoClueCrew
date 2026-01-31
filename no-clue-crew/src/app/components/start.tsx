@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from "react";
 import YearModal from "./modal";
 import dataArray from "./gamestory";
+import { useGameStats } from "./GameStatsContext";
 
 const Main: React.FC = () => {
   const baseAge = 14; // starting age
@@ -16,6 +17,7 @@ const Main: React.FC = () => {
   const [educationalContent, setEducationalContent] = useState<string>("");
   const [isLoadingContent, setIsLoadingContent] = useState(false);
   const [lastChoice, setLastChoice] = useState<"A" | "B" | null>(null);
+  const { wealth, setWealth, happiness, setHappiness } = useGameStats();
 
   // ensure age is initialized when showing the story
   useEffect(() => {
