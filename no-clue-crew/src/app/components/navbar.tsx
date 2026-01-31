@@ -29,8 +29,13 @@ const Navbar: React.FC = () => {
       style={{
         width: "400px",
         maxWidth: "96%",
+<<<<<<< HEAD
+        margin: "100px auto", // center horizontally
+        padding: "20px 20px",
+=======
         margin: "0 auto", // remove vertical margin because it's fixed
         padding: "12px 20px",
+>>>>>>> d0c9629d1670cad441e851ab496094fee37b4874
         background: "#FFFDD0",
         display: "flex",
         alignItems: "center",
@@ -76,13 +81,48 @@ const Navbar: React.FC = () => {
           Show Character Stats
         </button>
 
-         {showStats && buttonCoords && (
-          <StatsPopup
-            health={health}
-            wealth={wealth}
-            coords={buttonCoords}
-            onClose={() => setShowStats(false)}
-          />
+        {showStats && (
+          <div
+            role="dialog"
+            aria-label="Character stats"
+            style={{
+              position: "absolute",
+              zIndex: 100,
+              right: 0,
+              marginTop: 8,
+              background: "#fff",
+              color: "black",
+              padding: 12,
+              borderRadius: 8,
+              boxShadow: "0 6px 18px rgba(0,0,0,0.12)",
+              minWidth: 180,
+            }}
+          >
+            <div style={{ marginBottom: 8, fontWeight: 600 }}>Character</div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span>Health</span>
+              <span>{health}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span>Wealth</span>
+              <span>{wealth}</span>
+            </div>
+            <div style={{ textAlign: "right", marginTop: 8 }}>
+              <button
+                onClick={() => setShowStats(false)}
+                style={{
+                  padding: "6px 8px",
+                  borderRadius: 6,
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  background: "#eff1bf",
+                  color: "black",
+                  cursor: "pointer",
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </nav>

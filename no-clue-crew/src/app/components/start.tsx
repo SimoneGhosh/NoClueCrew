@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from "react";
 import YearModal from "./modal";
 import dataArray from "./gamestory";
+import { useGameStats } from "./GameStatsContext";
 
 const Main: React.FC = () => {
   const baseAge = 14; // starting age
@@ -12,6 +13,7 @@ const Main: React.FC = () => {
   const [age, setAge] = useState<number | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const [hasChosen, setHasChosen] = useState(false);
+  const {wealth, setWealth, happiness, setHappiness } = useGameStats();
 
   // ensure age is initialized when showing the story
   useEffect(() => {
@@ -37,6 +39,13 @@ const Main: React.FC = () => {
     setModalVisible(true);
   };
 
+
+  // Function to apply effects
+  const applyChoiceEffects = (effects: { wealth: number, happiness: number}) => {
+    setWealth((prev) => prev + (effects.wealth || 0));
+    setHappiness((prev) => prev + (effects.happiness || 0));
+  };
+
   const handleChooseOutcome = (choice: "A" | "B") => {
     const story = currentStory ?? dataArray.data.stories.find((s) => s.age === (age ?? baseAge));
     if (!story) {
@@ -48,6 +57,11 @@ const Main: React.FC = () => {
 
     const resultText = choice === "A" ? story.resultA : story.resultB;
     setOutcome(resultText);
+
+    const effects = choice === "A" ? story.choiceAEffects : story.choiceBEffects;
+    if (effects) {
+      applyChoiceEffects(effects);
+    }
 
     // advance age by story.increaseAge
     setAge((prev) => {
@@ -90,16 +104,27 @@ const Main: React.FC = () => {
           marginTop: "-180px",
         }}
       >
-      
-        
-        <button onClick={handleIncreaseAge} style={{ padding: "8px 12px", color: "black" }}>
+
+
+        <button onClick={handleIncreaseAge} style={{
+          border: "none",
+          borderRadius: 20,
+          padding: "10px 18px",
+          fontSize: 14,
+          fontWeight: 500,
+          background: "#FADADD", // pastel pink
+          color: "#4A3F35",
+          cursor: "pointer",
+          boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+          transition: "transform 0.15s ease, box-shadow 0.15s ease",
+        }}>
           Increase Age
         </button>
 
-        {age !== null && <p style={{ color: "black" }}>Character age: {age}</p>}
+        {age !== null && <p style={{ fontWeight: 700, color: "black" }}>Character age: {age}</p>}
         {outcome && <p style={{ color: "black" }}>{outcome}</p>}
 
-       
+
       </div>
 
       <YearModal
