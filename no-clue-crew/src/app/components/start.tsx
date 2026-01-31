@@ -5,8 +5,11 @@ import React, { useState, useEffect } from "react";
 import YearModal from "./modal";
 import dataArray from "./gamestory";
 import { useGameStats } from "./GameStatsContext";
+import next from "next";
+import nextAppLoader from "next/dist/build/webpack/loaders/next-app-loader";
+import FinalPage from "./finalPage";
 
-const Main: React.FC = () => {
+const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
   const baseAge = 14; // starting age
   const [showStory, setShowStory] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -18,7 +21,8 @@ const Main: React.FC = () => {
   const [isLoadingContent, setIsLoadingContent] = useState(false);
   const [lastChoice, setLastChoice] = useState<"A" | "B" | null>(null);
   const { wealth, setWealth, happiness, setHappiness } = useGameStats();
-
+  const [isGameFinished, setIsGameFinished] = useState(false);
+  const maxAge = Math.max(...dataArray.data.stories.map(s => s.age));
   // ensure age is initialized when showing the story
   useEffect(() => {
     if (showStory && age == null) {
@@ -36,7 +40,7 @@ const Main: React.FC = () => {
     setShowLearnMore(false);
     setEducationalContent("");
     setLastChoice(null);
-    
+
     if (!currentStory) {
       const fallback = dataArray.data.stories.find((s) => s.age >= (age ?? baseAge));
       if (fallback) {
@@ -48,11 +52,11 @@ const Main: React.FC = () => {
 
 
   // Function to apply effects
-  const applyChoiceEffects = (effects: { wealth: number, happiness: number}) => {
+  const applyChoiceEffects = (effects: { wealth: number, happiness: number }) => {
     setWealth((prev) => prev + (effects.wealth || 0));
     setHappiness((prev) => prev + (effects.happiness || 0));
   };
-  
+
   const fetchEducationalContent = async (choice: "A" | "B", story: any) => {
     setIsLoadingContent(true);
 
@@ -113,7 +117,12 @@ const Main: React.FC = () => {
     // advance age by story.increaseAge
     setAge((prev) => {
       const prevAge = prev ?? story.age;
-      return prevAge + (Number(story.increaseAge) || 0);
+      const nextAge = prevAge + (Number(story.increaseAge) || 0);
+      if (nextAge > maxAge) {
+        setIsGameFinished(true);
+        return prevAge; // do not increase age beyond maxAge
+      }
+      return nextAge;
     });
 
     setModalVisible(false);
@@ -124,13 +133,19 @@ const Main: React.FC = () => {
   const handleLearnMoreClick = () => {
     if (lastChoice && currentStory) {
       // Find the story that was just completed (before age advancement)
-      const completedStory = dataArray.data.stories.find((s) => 
+      const completedStory = dataArray.data.stories.find((s) =>
         s.age === (age! - (currentStory.increaseAge || 0))
       ) || currentStory;
-      
+
       fetchEducationalContent(lastChoice, completedStory);
     }
   };
+
+  useEffect(() => {
+    if (isGameFinished) {
+      onGameOver();
+    }
+  }, [isGameFinished, onGameOver]);
 
   return (
     <div
@@ -162,9 +177,9 @@ const Main: React.FC = () => {
           overflowY: "auto",
         }}
       >
-        <button 
-          onClick={handleIncreaseAge} 
-          style={{ 
+        <button
+          onClick={handleIncreaseAge}
+          style={{
             background: "#FADADD",
             color: "#4A3F35",
             border: "none",
@@ -180,12 +195,12 @@ const Main: React.FC = () => {
           Increase Age
         </button>
 
-        {age !== null && <p style={{ color: "black", fontWeight: 600 }}> Monty is {age} years old</p>}
-        
+        {age !== null && <p style={{ color: "black", fontWeight: 600 }}>Character age: {age}</p>}
+
         {outcome && (
-          <div style={{ 
-            padding: "12px", 
-            backgroundColor: "#f0f8ff", 
+          <div style={{
+            padding: "12px",
+            backgroundColor: "#f0f8ff",
             borderRadius: "8px",
             maxWidth: "90%"
           }}>
@@ -194,10 +209,10 @@ const Main: React.FC = () => {
         )}
 
         {showLearnMore && !modalVisible && (
-          <button 
+          <button
             onClick={handleLearnMoreClick}
             disabled={isLoadingContent}
-            style={{ 
+            style={{
               background: "#B8E6B8",
               color: "#2d5016",
               border: "none",
@@ -216,25 +231,25 @@ const Main: React.FC = () => {
         )}
 
         {educationalContent && !modalVisible && (
-          <div style={{ 
-            padding: "16px", 
-            backgroundColor: "#fff9e6", 
+          <div style={{
+            padding: "16px",
+            backgroundColor: "#fff9e6",
             borderRadius: "12px",
             maxWidth: "90%",
             border: "2px solid #ffd700",
             maxHeight: "300px",
             overflowY: "auto"
           }}>
-            <h4 style={{ 
-              color: "#2d5016", 
+            <h4 style={{
+              color: "#2d5016",
               marginTop: 0,
               marginBottom: "8px",
               fontSize: "16px"
             }}>
               💰 Financial Literacy Tip
             </h4>
-            <p style={{ 
-              color: "black", 
+            <p style={{
+              color: "black",
               margin: 0,
               textAlign: "left",
               fontSize: "13px",

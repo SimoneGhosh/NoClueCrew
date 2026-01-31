@@ -159,7 +159,7 @@ const dataArray = {
       {
         "id": "15",
         "age": 82,
-        "increaseAge": 0,
+        "increaseAge": 1,
         "choiceA": "Reflect on Smart Financial Choices",
         "choiceB": "Regret Missed Planning",
         "resultA": "Comfort & Legacy",
