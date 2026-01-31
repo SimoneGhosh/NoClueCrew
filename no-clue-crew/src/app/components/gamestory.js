@@ -9,7 +9,9 @@ const dataArray = {
         "choiceA": "Save for Overnight School Trip – $500",
         "choiceB": "Spend on Games & Skins – $20",
         "resultA": "Confidence Boost + Life Experience",
-        "resultB": "Short-Term Fun"
+        "resultB": "Short-Term Fun",
+        "choiceAEffects": { "wealth": -500, "happiness": 10 },
+        "choiceBEffects": { "wealth": -20, "happiness": 20 }
       },
       {
         "id": "2",

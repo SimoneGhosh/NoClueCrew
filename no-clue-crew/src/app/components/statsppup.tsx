@@ -1,13 +1,13 @@
 import ReactDOM from "react-dom";
 
 interface StatsPopupProps {
-  health: number;
+  happiness: number;
   wealth: number;
   onClose: () => void;
   coords: { top: number; left: number; height: number; width: number };
 }
 
-const StatsPopup: React.FC<StatsPopupProps> = ({ health, wealth, onClose, coords }) => {
+const StatsPopup: React.FC<StatsPopupProps> = ({ happiness, wealth, onClose, coords }) => {
   if (!coords) return null;
 
   return ReactDOM.createPortal(
@@ -30,8 +30,8 @@ const StatsPopup: React.FC<StatsPopupProps> = ({ health, wealth, onClose, coords
     >
       <div style={{ marginBottom: 8, fontWeight: 600 }}>Character</div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span>Health</span>
-        <span>{health}</span>
+        <span>Happiness</span>
+        <span>{happiness}</span>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>Wealth</span>
