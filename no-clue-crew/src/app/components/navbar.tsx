@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
       style={{
         width: "400px",
         maxWidth: "96%",
-        margin: "16px auto", // center horizontally
+        margin: "0 auto", // remove vertical margin because it's fixed
         padding: "12px 20px",
         background: "#FFFDD0",
         display: "flex",
@@ -26,6 +26,13 @@ const Navbar: React.FC = () => {
         height: "auto",
         overflow: "hidden",
         boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
+
+        // NEW: make navbar float above start.tsx and stay centered
+        position: "fixed",
+        top: 16,
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 1000,
       }}
     >
       <div style={{ fontWeight: 700, fontSize: 18, color: "black" }}>

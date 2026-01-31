@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
+import YearModal from "./modal";
 
 const Header: React.FC = () => {
   const baseAge = 7; // starting age if age was never set
@@ -44,6 +45,10 @@ const Header: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+
+        // NEW: add top padding so the fixed navbar doesn't cover content
+        paddingTop: "240px", // adjust to be >= navbar top + height (200px max + gap)
+        boxSizing: "border-box",
       }}
     >
       {!showStory ? (
@@ -176,55 +181,13 @@ const Header: React.FC = () => {
         </div>
       )}
 
-      {/* Modal */}
-      {modalVisible && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          style={{
-            position: "fixed",
-            inset: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "rgba(0,0,0,0.5)",
-            zIndex: 9999,
-          }}
-        >
-          <div
-            style={{
-              width: "360px",
-              background: "#fff",
-              borderRadius: 12,
-              padding: 20,
-              display: "flex",
-              flexDirection: "column",
-              gap: 12,
-              alignItems: "center",
-              color: "black", // modal text black
-            }}
-          >
-            <h3 style={{ margin: 0, color: "black" }}>Choose what happens this year</h3>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={() => handleChooseOutcome("c1")} style={{ color: "black" }}>
-                Choice 1
-              </button>
-              <button onClick={() => handleChooseOutcome("c2")} style={{ color: "black" }}>
-                Choice 2
-              </button>
-              <button onClick={() => handleChooseOutcome("c3")} style={{ color: "black" }}>
-                Neutral
-              </button>
-            </div>
-            <button
-              onClick={() => setModalVisible(false)}
-              style={{ marginTop: 8, color: "black" }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Modal component */}
+      <YearModal
+        open={modalVisible}
+        age={age}
+        onChoose={handleChooseOutcome}
+        onClose={() => setModalVisible(false)}
+      />
     </div>
   );
 };
