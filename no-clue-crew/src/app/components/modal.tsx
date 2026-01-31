@@ -31,7 +31,7 @@ const YearModal: React.FC<YearModalProps> = ({ open, age, choiceA, choiceB, onCh
       <div
         style={{
           width: 360,
-          background: "#fff",
+          background: "#FFFDD0",
           borderRadius: 12,
           padding: 20,
           display: "flex",
@@ -45,15 +45,35 @@ const YearModal: React.FC<YearModalProps> = ({ open, age, choiceA, choiceB, onCh
         <p style={{ margin: 0 }}>{age !== null ? `Age ${age}` : ""}</p>
 
         <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={() => onChoose("A")} style={{ color: "black" }}>
+          <button onClick={() => onChoose("A")} style={{ 
+                                                        background: "#FADADD", // pastel pink
+                                                        color: "#4A3F35",
+                                                        border: "none",
+                                                        borderRadius: 20,
+                                                        padding: "10px 18px",
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        cursor: "pointer",
+                                                        boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+                                                        transition: "transform 0.15s ease, box-shadow 0.15s ease",
+                                                        }}>
             {choiceA ?? "Choice 1"}
           </button>
-          <button onClick={() => onChoose("B")} style={{ color: "black" }}>
+          <button onClick={() => onChoose("B")} style={{ background: "#FADADD", // pastel pink
+                                                        color: "#4A3F35",
+                                                        border: "none",
+                                                        borderRadius: 20,
+                                                        padding: "10px 18px",
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        cursor: "pointer",
+                                                        boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+                                                        transition: "transform 0.15s ease, box-shadow 0.15s ease", }}>
             {choiceB ?? "Choice 2"}
           </button>
         </div>
 
-        <button onClick={onClose} style={{ marginTop: 8, color: "black" }}>
+        <button onClick={onClose} style={{ marginTop: 8, color: "black" }} className="startButton">
           Cancel
         </button>
       </div>

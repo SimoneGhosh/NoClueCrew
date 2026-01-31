@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
       }}
     >
       <div style={{ fontWeight: 700, fontSize: 18, color: "black" }}>
-        No Clue Crew
+        MoneyGrow
       </div>
 
        <div>
@@ -61,12 +61,16 @@ const Navbar: React.FC = () => {
           ref={buttonRef}
           onClick={toggleStats}
           style={{
-            padding: "6px 10px",
-            borderRadius: 6,
-            border: "5px solid rgba(9,121,54,0.89)",
-            background: "#fff",
-            color: "green",
+            background: "#FADADD", // pastel pink
+            color: "#4A3F35",
+            border: "none",
+            borderRadius: 20,
+            padding: "10px 18px",
+            fontSize: 14,
+            fontWeight: 500,
             cursor: "pointer",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+            transition: "transform 0.15s ease, box-shadow 0.15s ease",
           }}
         >
           Show Character Stats
