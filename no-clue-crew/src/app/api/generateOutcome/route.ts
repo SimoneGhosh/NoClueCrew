@@ -1,8 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
-
-const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
-const ai = new GoogleGenAI({ apiKey });
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,26 +18,64 @@ Provide a brief, engaging explanation (2 short sentences) that:
 3) Encourages smart money habits in a positive tone.
 Keep language age-appropriate and concise.`;
 
+    const apiKey = process.env.OPENROUTER_API_KEY;
+    console.log("generateOutcome: OPENROUTER_API_KEY present?", Boolean(apiKey));
+
     if (!apiKey) {
-      console.log("generateOutcome: GEMINI API key not set; returning fallback text");
+      console.log("generateOutcome: OPENROUTER_API_KEY not set — returning fallback text");
       return NextResponse.json({ text: `Tip: ${resultText}` });
     }
 
-    // Use Gemini 2.0 Flash model
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      // pass the prompt as a text content part
-      contents: [{  text: prompt }],
-    });
+    const url = "https://openrouter.ai/api/v1/chat/completions";
 
-    // best-effort extraction of generated text
-    let text =
-      (response as any)?.candidates?.[0]?.content?.[0]?.text ||
-      (response as any)?.text ||
-      (response as any)?.output?.[0]?.content?.map((c: any) => c.text || c?.plainText || "").join(" ") ||
-      JSON.stringify(response).slice(0, 2000);
+    let resp;
+    try {
+      resp = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.7,
+          max_tokens: 512,
+        }),
+      });
+    } catch (fetchErr: any) {
+      console.error("generateOutcome: fetch threw:", fetchErr);
+      return NextResponse.json(
+        {
+          error: "Upstream fetch failed",
+          details: String(fetchErr?.message ?? fetchErr),
+          text: `Tip: ${resultText}`,
+        },
+        { status: 502 }
+      );
+    }
 
-    return NextResponse.json({ text });
+    const respText = await resp.text();
+    console.log("generateOutcome: openrouter status", resp.status);
+    console.log("generateOutcome: upstream response (truncated):", respText.slice(0, 2000));
+
+    if (!resp.ok) {
+      return NextResponse.json({ error: "Upstream API error", details: respText, text: `Tip: ${resultText}` }, { status: 502 });
+    }
+
+    let data: any = {};
+    try {
+      data = JSON.parse(respText);
+    } catch (e) {
+      console.warn("generateOutcome: invalid JSON from upstream, using raw text");
+    }
+
+    const text =
+      data?.choices?.[0]?.message?.content ||
+      data?.choices?.[0]?.text ||
+      (typeof respText === "string" ? respText : JSON.stringify(data).slice(0, 2000));
+
+    return NextResponse.json({ text: String(text) });
   } catch (err) {
     console.error("generateOutcome route error:", err);
     return NextResponse.json({ error: "Server error", details: String(err) }, { status: 500 });
