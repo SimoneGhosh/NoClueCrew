@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom";
 
+
 interface StatsPopupProps {
   happiness: number;
   wealth: number;
@@ -7,8 +8,30 @@ interface StatsPopupProps {
   coords: { top: number; left: number; height: number; width: number };
 }
 
+
 const StatsPopup: React.FC<StatsPopupProps> = ({ happiness, wealth, onClose, coords }) => {
   if (!coords) return null;
+  // Conditional styles or messages for happiness
+  let happinessLabel = " "
+  let happinessColor = "black";
+  if (happiness >= 50) {
+    happinessLabel = "❤️";
+    happinessColor = "green";
+  } else {
+    happinessLabel = "💔 ";
+    happinessColor = "red";
+  }
+
+  // Conditional styles or messages for wealth
+  let wealthLabel = " ";
+  let wealthColor = "black";
+  if (wealth >= 500) {
+    wealthLabel = "💵 ";
+    wealthColor = "green";
+  } else {
+    wealthLabel = "❌ ";
+    wealthColor = "red";
+  }
 
   return ReactDOM.createPortal(
     <div
@@ -30,12 +53,12 @@ const StatsPopup: React.FC<StatsPopupProps> = ({ happiness, wealth, onClose, coo
     >
       <div style={{ marginBottom: 8, fontWeight: 600 }}>Character</div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span>Happiness</span>
-        <span>{happiness}</span>
+        <span>{happinessLabel} Happiness</span>
+        <span style={{ color: happinessColor }}>{happiness}</span>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span>Wealth</span>
-        <span>{wealth}</span>
+        <span>{wealthLabel} Wealth</span>
+        <span style={{ color: wealthColor }}>{wealth}</span>
       </div>
       <div style={{ textAlign: "right", marginTop: 12 }}>
         <button onClick={onClose}>Close</button>

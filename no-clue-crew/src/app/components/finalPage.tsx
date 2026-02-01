@@ -14,7 +14,7 @@ const FinalPage: React.FC<{ onReset: () => void }> = ({ onReset }) => {
       style={{
         width: 400,
         height: 600,
-        margin: "55px auto",
+        margin: "95px auto",
         padding: "20px",
         background: "#FFFDD0",
         borderRadius: 20,

@@ -184,8 +184,9 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
           marginTop: "-250px",
           overflowY: "auto",
 
+
           
-          position: "relative",
+          position: "fixed",
           overflow: "hidden",
         }}
       >
