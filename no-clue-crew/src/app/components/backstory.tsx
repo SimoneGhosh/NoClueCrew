@@ -88,27 +88,13 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
               position: "absolute",
               bottom: "-50px",
               left: "-15px",
-              width: "200px",
+              width: "250px",
               opacity: 1,
               pointerEvents: "none",
               zIndex: 2,
             }}
           />
-          {/* Bush Center */}
-          <img
-            src="/images/bush.png"
-            className="bush"
-            style={{
-              position: "absolute",
-              bottom: "-50px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "200px",
-              opacity: 1,
-              pointerEvents: "none",
-              zIndex: 2,
-            }}
-          />
+
           {/* Bush Right */}
           <img
             src="/images/bush.png"
@@ -117,7 +103,7 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
               position: "absolute",
               bottom: "-50px",
               right: "-20px",
-              width: "200px",
+              width: "250px",
               opacity: 1,
               pointerEvents: "none",
               zIndex: 2,
