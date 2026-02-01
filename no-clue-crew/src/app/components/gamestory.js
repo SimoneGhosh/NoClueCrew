@@ -12,6 +12,8 @@ const dataArray = {
         "resultB": "Monty has Short-Term Fun!",
         "choiceAeffects": {"wealth": +1, "happiness": 20},
         "choiceBeffects": {"wealth": -55, "happiness": 30},
+        "lesson":
+          "Saving for experiences teaches that money can be used for meaningful goals, not just quick fun. Try setting aside a little money each week for something special you really care about."
       },
       {
         "id": "2",
@@ -23,6 +25,8 @@ const dataArray = {
         "resultB": "Monty is Relaxed with No Savings",
         "choiceAeffects": {"wealth": +500, "happiness": -10},
         "choiceBeffects": {"wealth": 0, "happiness": 10},
+        "lesson":
+          "Balancing work and leisure is crucial. While earning money is important, so is enjoying your free time. Find a balance that works for you."
       },
       {
         "id": "3",
@@ -34,6 +38,9 @@ const dataArray = {
         "resultB": "Monty's Style Upgraded; Empty Savings :O",
         "choiceAeffects": {"wealth": 500, "happiness": -5},
         "choiceBeffects": {"wealth": -1100, "happiness": 50},
+        "lesson":
+          "Saving for big needs shows the difference between wants and necessities. Planning ahead can give you independence without running out of money."
+     
       },
       {
         "id": "4",
@@ -45,6 +52,9 @@ const dataArray = {
         "resultB": "Monty is starting to have Financial Stress!",
         "choiceAeffects": {"wealth": 1500, "happiness": 20},
         "choiceBeffects": {"wealth": -500, "happiness": 10},
+        "lesson":
+          "Planning for education costs helps avoid money stress later. Applying early and making a budget can save you a lot in the future."
+      
       },
       {
         "id": "5",
@@ -56,6 +66,9 @@ const dataArray = {
         "resultB": "Monty has High Debt Pressure >~<",
         "choiceAeffects": {"wealth": 100, "happiness": 30},
         "choiceBeffects": {"wealth": -1000, "happiness": 30},
+        "lesson":
+          "Choosing affordable options helps keep debt under control. You can still chase your dreams while being smart about how much you borrow."
+      
       },
       {
         "id": "6",
@@ -67,6 +80,8 @@ const dataArray = {
         "resultB": "Monty is Living Paycheque to Paycheque :(",
         "choiceAeffects": {"wealth": 1500, "happiness": 15},
         "choiceBeffects": {"wealth": -3500, "happiness": 50},
+        "lesson":
+          "Building an emergency fund is essential for financial security. It helps you handle unexpected expenses without going into debt."
       },
       {
         "id": "7",
@@ -78,6 +93,8 @@ const dataArray = {
         "resultB": "Monty has Missed Growth Opportunities",
         "choiceAeffects": {"wealth": +500, "happiness": +10},
         "choiceBeffects": {"wealth": -500, "happiness": -10},
+        "lesson":
+          "Investing early allows your money to grow over time. The sooner you start, the more you can benefit from compound growth."
       },
       {
         "id": "8",
@@ -89,6 +106,9 @@ const dataArray = {
         "resultB": "Monty has Great Money Anxiety",
         "choiceAeffects": {"wealth": +11000, "happiness": 20},
         "choiceBeffects": {"wealth": -15000, "happiness": +40},
+        "lesson":
+          "Choosing affordable options helps keep debt under control. You can still chase your dreams while being smart about how much you borrow."
+      
       },
       {
         "id": "9",
@@ -100,6 +120,8 @@ const dataArray = {
         "resultB": "Monty has Retirement Delays...",
         "choiceAeffects": {"wealth": +500, "happiness": +10},
         "choiceBeffects": {"wealth": -500, "happiness": -10},
+        "lesson":
+          "Increasing retirement contributions early can lead to a more comfortable future. It's important to prioritize long-term savings over short-term luxuries."
       },
       {
         "id": "10",
@@ -111,6 +133,8 @@ const dataArray = {
         "resultB": "Montys Debt is Snowball :(",
         "choiceAeffects": {"wealth": +500, "happiness": +10},
         "choiceBeffects": {"wealth": -500, "happiness": -10},
+        "lesson":
+          "Paying off high-interest debt quickly can save you money in the long run. It's better to tackle debt aggressively than to make only minimum payments."
       },
       {
         "id": "11",
@@ -122,6 +146,8 @@ const dataArray = {
         "resultB": "Monty has Delayed Retirement >~<",
         "choiceAeffects": {"wealth": +500, "happiness": +10},
         "choiceBeffects": {"wealth": -500, "happiness": -10},
+        "lesson":
+          "Downsizing and saving aggressively can provide financial security in retirement. It's important to live within your means and prioritize savings."
       },
       {
         "id": "12",
@@ -133,6 +159,8 @@ const dataArray = {
         "resultB": "Monty has Uncertainty",
         "choiceAeffects": {"wealth":+500, "happiness": +10},
         "choiceBeffects": {"wealth": -500, "happiness": -10},
+        "lesson":
+          "Finalizing a retirement plan provides clarity and direction. It's essential to have a strategy in place rather than leaving things to chance."
       },
       {
         "id": "13",
@@ -144,6 +172,8 @@ const dataArray = {
         "resultB": "Monty is at Risk of Running Out",
         "choiceAeffects": {"wealth": +5000, "happiness": +10},
         "choiceBeffects": {"wealth": 500, "happiness": -10},
+        "lesson":
+          "Living within your means during retirement is crucial for long-term stability. It's important to budget and avoid overspending."
       },
       {
         "id": "14",
@@ -155,6 +185,8 @@ const dataArray = {
         "resultB": "Unexpected Burdens",
         "choiceAeffects": {"wealth": +5000, "happiness": +10},
         "choiceBeffects": {"wealth": -5000, "happiness": -10},
+        "lesson":
+          "Planning for estate and healthcare costs is essential to avoid burdening your family later. Proactive financial planning can ensure peace of mind."
       },
       {
         "id": "15",
@@ -166,6 +198,8 @@ const dataArray = {
         "resultB": "Monty has Financial Stress Late in Life ><",
         "choiceAeffects": {"wealth": +5000, "happiness": +70},
         "choiceBeffects": {"wealth": -10000, "happiness": -70},
+        "lesson":
+          "Reflecting on your financial choices can provide valuable insights for the future. It's never too late to learn from past mistakes and make better decisions."
       }
     ]
   }
