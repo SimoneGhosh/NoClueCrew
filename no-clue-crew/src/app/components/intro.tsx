@@ -59,7 +59,7 @@ const Intro: React.FC<IntroProps> = ({ onNext }) => {
       >
         {/* Character */}
         <img
-          src="/images/happyguy.png"
+          src="/images/waving.gif"
           alt="Character"
           style={{ width: 240, marginLeft: "70px" }}
         />

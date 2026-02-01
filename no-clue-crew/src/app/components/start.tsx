@@ -181,7 +181,7 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
           textAlign: "center",
           gap: 16,
           color: "black",
-          marginTop: "-180px",
+          marginTop: "-250px",
           overflowY: "auto",
 
           

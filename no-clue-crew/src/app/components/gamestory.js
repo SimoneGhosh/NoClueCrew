@@ -10,7 +10,7 @@ const dataArray = {
         "choiceB": "Spend on Games & Buy a Jellycat – $55",
         "resultA": "Monty gains Confidence Boost + Life Experience :D",
         "resultB": "Monty has Short-Term Fun!",
-        "choiceAeffects": {"wealth": -500, "happiness": 20},
+        "choiceAeffects": {"wealth": +1, "happiness": 20},
         "choiceBeffects": {"wealth": -55, "happiness": 30},
       },
       {
