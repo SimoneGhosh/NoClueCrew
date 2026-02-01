@@ -10,6 +10,7 @@ const Navbar: React.FC = () => {
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [buttonCoords, setButtonCoords] = useState<{ top: number; left: number; height: number; width: number } | null>(null);
+  const [lifted, setLifted] = useState(false);
 
   const toggleStats = () => {
     if (buttonRef.current) {
@@ -60,6 +61,8 @@ const Navbar: React.FC = () => {
         <button
           ref={buttonRef}
           onClick={toggleStats}
+          onMouseEnter={() => setLifted(true)}
+      onMouseLeave={() => setLifted(false)}
           style={{
             position: "relative",
             background: "#FADADD", // pastel pink
@@ -72,6 +75,8 @@ const Navbar: React.FC = () => {
             cursor: "pointer",
             boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
             transition: "transform 0.15s ease, box-shadow 0.15s ease",
+            transform: lifted ? "translateY(-2px)" : "none",
+
           }}
         >
           Show Character Stats
