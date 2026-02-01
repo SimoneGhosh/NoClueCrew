@@ -53,7 +53,7 @@ const Intro: React.FC<IntroProps> = ({ onNext }) => {
           textAlign: "center",
           gap: 20,
           color: "black",
-          position: "relative",
+          position: "fixed",
           fontFamily: "'Baloo 2', cursive",
         }}
       >

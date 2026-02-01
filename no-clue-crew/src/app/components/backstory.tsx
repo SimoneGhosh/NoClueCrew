@@ -41,40 +41,89 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
     >
       <div
         style={{
-          width: 400,
-          height: 600,
-          backgroundColor: "#FFFDD0",
-          borderRadius: 20,
-          padding: 20,
-          color: "black",
+          width: "400px",
+          height: "600px",
+          borderRadius: "20px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          gap: "20px",
+          position: "relative",
+          overflow: "hidden",
+          zIndex: 3,
+          backgroundColor: "#FFFDD0",
           textAlign: "center",
-          gap: 16,
         }}
       >
-        <h1 style={{fontWeight: 700}}>Background Story</h1>
-
-        <p style={{ maxWidth: 320 }}>{displayedText}</p>
-
+        <h1 style={{fontWeight: 700, color: "black"}}>Background Story</h1>
+        <p style={{ maxWidth: 320, color: "black" }}>{displayedText}</p>
         {doneTyping && (
-          <button onClick={onContinue} 
-          style={{ background: "#FADADD", // pastel pink
-            color: "#4A3F35", 
-            marginTop: 20,
-            border: "none",
-            borderRadius: 20,
-            padding: "10px 18px",
-            fontSize: 14,
-            fontWeight: 500,
-            cursor: "pointer",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
-            transition: "transform 0.15s ease, box-shadow 0.15s ease",}}>
+          <button onClick={onContinue}
+            style={{
+              background: "#FADADD", // pastel pink
+              color: "#4A3F35",
+              marginTop: 5,
+              border: "none",
+              borderRadius: 20,
+              padding: "10px 18px",
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: "pointer",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+              transition: "transform 0.15s ease, box-shadow 0.15s ease",
+              zIndex: 4,
+              position: "relative"
+            }}>
             Continue
           </button>
         )}
+        {/* Bushes below the button */}
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 80, pointerEvents: "none", zIndex: 2 }}>
+          {/* Bush Left */}
+          <img
+            src="/images/bush.png"
+            className="bush"
+            style={{
+              position: "absolute",
+              bottom: "-50px",
+              left: "-15px",
+              width: "200px",
+              opacity: 1,
+              pointerEvents: "none",
+              zIndex: 2,
+            }}
+          />
+          {/* Bush Center */}
+          <img
+            src="/images/bush.png"
+            className="bush"
+            style={{
+              position: "absolute",
+              bottom: "-50px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "200px",
+              opacity: 1,
+              pointerEvents: "none",
+              zIndex: 2,
+            }}
+          />
+          {/* Bush Right */}
+          <img
+            src="/images/bush.png"
+            className="bush"
+            style={{
+              position: "absolute",
+              bottom: "-50px",
+              right: "-20px",
+              width: "200px",
+              opacity: 1,
+              pointerEvents: "none",
+              zIndex: 2,
+            }}
+          />
+        </div>
       </div>
     </div>
   );
