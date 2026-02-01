@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
 import YearModal from "./modal";
 import dataArray from "./gamestory";
 import { useGameStats } from "./GameStatsContext";
@@ -22,7 +23,11 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
   const [lastChoice, setLastChoice] = useState<"A" | "B" | null>(null);
   const { wealth, setWealth, happiness, setHappiness } = useGameStats();
   const [isGameFinished, setIsGameFinished] = useState(false);
-  const maxAge = Math.max(...dataArray.data.stories.map(s => s.age));
+  const maxAge = Math.max(...dataArray.data.stories.map((s) => s.age));
+
+  // starts happy
+  const [mascotMood, setMascotMood] = useState<"happy" | "sad">("happy");
+
   // ensure age is initialized when showing the story
   useEffect(() => {
     if (showStory && age == null) {
@@ -50,9 +55,8 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
     setModalVisible(true);
   };
 
-
   // Function to apply effects
-  const applyChoiceEffects = (effects: { wealth: number, happiness: number }) => {
+  const applyChoiceEffects = (effects: { wealth: number; happiness: number }) => {
     setWealth((prev) => prev + (effects.wealth || 0));
     setHappiness((prev) => prev + (effects.happiness || 0));
   };
@@ -110,6 +114,11 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
     setShowLearnMore(true);
 
     const effects = choice === "A" ? story.choiceAeffects : story.choiceBeffects;
+
+    // mascot mood depends on wealth (so real)
+    const wealthDelta = Number(effects?.wealth ?? 0);
+    setMascotMood(wealthDelta > 0 ? "happy" : "sad");
+
     if (effects) {
       applyChoiceEffects(effects);
     }
@@ -133,9 +142,8 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
   const handleLearnMoreClick = () => {
     if (lastChoice && currentStory) {
       // Find the story that was just completed (before age advancement)
-      const completedStory = dataArray.data.stories.find((s) =>
-        s.age === (age! - (currentStory.increaseAge || 0))
-      ) || currentStory;
+      const completedStory =
+        dataArray.data.stories.find((s) => s.age === (age! - (currentStory.increaseAge || 0))) || currentStory;
 
       fetchEducationalContent(lastChoice, completedStory);
     }
@@ -175,6 +183,10 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
           color: "black",
           marginTop: "-180px",
           overflowY: "auto",
+
+          
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         <button
@@ -198,12 +210,14 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
         {age !== null && <p style={{ color: "black", fontWeight: 600 }}>Character age: {age}</p>}
 
         {outcome && (
-          <div style={{
-            padding: "12px",
-            backgroundColor: "#f0f8ff",
-            borderRadius: "8px",
-            maxWidth: "90%"
-          }}>
+          <div
+            style={{
+              padding: "12px",
+              backgroundColor: "#f0f8ff",
+              borderRadius: "8px",
+              maxWidth: "90%",
+            }}
+          >
             <p style={{ color: "black", margin: 0 }}>{outcome}</p>
           </div>
         )}
@@ -231,34 +245,76 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
         )}
 
         {educationalContent && !modalVisible && (
-          <div style={{
-            padding: "16px",
-            backgroundColor: "#fff9e6",
-            borderRadius: "12px",
-            maxWidth: "90%",
-            border: "2px solid #ffd700",
-            maxHeight: "300px",
-            overflowY: "auto"
-          }}>
-            <h4 style={{
-              color: "#2d5016",
-              marginTop: 0,
-              marginBottom: "8px",
-              fontSize: "16px"
-            }}>
+          <div
+            style={{
+              padding: "16px",
+              backgroundColor: "#fff9e6",
+              borderRadius: "12px",
+              maxWidth: "90%",
+              border: "2px solid #ffd700",
+              maxHeight: "300px",
+              overflowY: "auto",
+              position: "relative",
+              zIndex: 5
+            }}
+          >
+            <h4
+              style={{
+                color: "#2d5016",
+                marginTop: 0,
+                marginBottom: "8px",
+                fontSize: "16px",
+              }}
+            >
               💰 Financial Literacy Tip
             </h4>
-            <p style={{
-              color: "black",
-              margin: 0,
-              textAlign: "left",
-              fontSize: "13px",
-              lineHeight: "1.5"
-            }}>
+            <p
+              style={{
+                color: "black",
+                margin: 0,
+                textAlign: "left",
+                fontSize: "13px",
+                lineHeight: "1.5",
+                zIndex: 3
+              }}
+            >
               {educationalContent}
             </p>
           </div>
         )}
+
+        {/* Mascot */}
+{mascotMood === "happy" ? (
+  // Happy
+  <img
+    src="/images/peeking.gif"
+    alt="Mascot Happy"
+    style={{
+      position: "absolute",
+      bottom: "-18px",
+      left: "20%",
+      transform: "translateX(-50%)",
+      width: "160px",
+      pointerEvents: "none",
+      zIndex: 1,
+    }}
+  />
+) : (
+  // SAD
+  <img
+    src="/images/sad.gif"
+    alt="Mascot Sad"
+    style={{
+      position: "absolute",
+      bottom: "-80px",           
+      left: "60%",
+      width: "160px",
+      pointerEvents: "none",
+      zIndex: 1,
+    }}
+  />
+)}
+
       </div>
 
       <YearModal
