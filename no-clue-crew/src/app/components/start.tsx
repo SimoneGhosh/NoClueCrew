@@ -24,6 +24,7 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
   const { wealth, setWealth, happiness, setHappiness } = useGameStats();
   const [isGameFinished, setIsGameFinished] = useState(false);
   const maxAge = Math.max(...dataArray.data.stories.map((s) => s.age));
+  const [lifted, setLifted] = useState(false);
 
   // starts happy
   const [mascotMood, setMascotMood] = useState<"happy" | "sad">("happy");
@@ -192,6 +193,8 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
       >
         <button
           onClick={handleIncreaseAge}
+          onMouseEnter={() => setLifted(true)}
+          onMouseLeave={() => setLifted(false)}
           style={{
             background: "#FADADD",
             color: "#4A3F35",
@@ -203,12 +206,13 @@ const Main: React.FC<{ onGameOver: () => void }> = ({ onGameOver }) => {
             cursor: "pointer",
             boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
             transition: "transform 0.15s ease, box-shadow 0.15s ease",
+            transform: lifted ? "translateY(-2px)" : "none",
           }}
         >
           Increase Age
         </button>
 
-        {age !== null && <p style={{ color: "black", fontWeight: 600 }}>Character age: {age}</p>}
+        {age !== null && <p style={{ color: "black", fontWeight: 600 }}>Monty's Age: {age}</p>}
 
         {outcome && (
           <div

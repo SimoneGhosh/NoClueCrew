@@ -78,8 +78,12 @@ const FinalPage: React.FC<{ onReset: () => void }> = ({ onReset }) => {
         }}
         onClick={onReset}
       >
-        Reset
+        ⟳ Reset
       </button>
+
+      <p style={{ fontSize: 12, padding: "0px 100px", color: "#888", marginTop: 16 }}>
+         Play Again to explore different choices and outcomes!
+      </p>
     </div>
   );
 };

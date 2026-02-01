@@ -11,6 +11,7 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
 
   const [displayedText, setDisplayedText] = useState("");
   const [doneTyping, setDoneTyping] = useState(false);
+  const [lifted, setLifted] = useState(false);
 
   useEffect(() => {
     let i = 0;
@@ -56,10 +57,12 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
           textAlign: "center",
         }}
       >
-        <h1 style={{fontWeight: 700, color: "black"}}>Background Story</h1>
+        <h1 style={{fontWeight: 700, fontSize: 20, color: "black"}}>Monty's Story...</h1>
         <p style={{ maxWidth: 320, color: "black" }}>{displayedText}</p>
         {doneTyping && (
           <button onClick={onContinue}
+              onMouseEnter={() => setLifted(true)}
+          onMouseLeave={() => setLifted(false)}
             style={{
               background: "#FADADD", // pastel pink
               color: "#4A3F35",
@@ -72,6 +75,7 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
               cursor: "pointer",
               boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
               transition: "transform 0.15s ease, box-shadow 0.15s ease",
+              transform: lifted ? "translateY(-2px)" : "none",
               zIndex: 4,
               position: "relative"
             }}>
