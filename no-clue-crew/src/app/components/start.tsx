@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 
 import YearModal from "./modal";
 import dataArray from "./gamestory";
-import { useGameStats } from "./gameStatsContext";
+import { useGameStats } from "./GameStatsContext";
 import next from "next";
 import nextAppLoader from "next/dist/build/webpack/loaders/next-app-loader";
 import FinalPage from "./finalPage";

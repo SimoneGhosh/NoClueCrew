@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import StatsPopup from "./statsppup";
-import { useGameStats } from "./gameStatsContext"; // <-- Import the context
+import { useGameStats } from "./GameStatsContext"; // <-- Import the context
 
 const Navbar: React.FC = () => {
   const [showStats, setShowStats] = useState(false);
