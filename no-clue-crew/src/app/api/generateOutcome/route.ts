@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const { type, age, choiceText, resultText } = body ?? {};
 
     if (type !== "learnMore" || !choiceText || !resultText) {
-      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+      return "Financeial literacy is important!";
     }
 
     const prompt = `You are a friendly financial literacy educator for kids and teens aged 10. 

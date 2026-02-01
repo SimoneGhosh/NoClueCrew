@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useGameStats } from "./GameStatsContext";
+import { useGameStats } from "./gameStatsContext";
 
 const FinalPage: React.FC<{ onReset: () => void }> = ({ onReset }) => {
   const { wealth, happiness } = useGameStats();

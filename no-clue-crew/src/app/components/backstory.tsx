@@ -56,7 +56,7 @@ const Backstory: React.FC<BackstoryProps> = ({ onContinue }) => {
           textAlign: "center",
         }}
       >
-        <h1 style={{fontWeight: 700, color: "black"}}>Background Story</h1>
+        <h1 style={{fontWeight: 700, color: "black", fontSize: 24}}>Monty's Story...</h1>
         <p style={{ maxWidth: 320, color: "black" }}>{displayedText}</p>
         {doneTyping && (
           <button onClick={onContinue}

@@ -41,8 +41,9 @@ const StatsPopup: React.FC<StatsPopupProps> = ({ happiness, wealth, onClose, coo
         position: "absolute",
         top: coords.top,       // align vertically with button
         left: coords.left + coords.width + 8, // right of button + spacing
-        background: "#fff",
-        color: "green",
+        background: "#cbeecdf4",
+        color: "black",
+        border: "4px solid #84bf86",
         padding: 16,
         borderRadius: 8,
         minWidth: 220,
@@ -51,7 +52,7 @@ const StatsPopup: React.FC<StatsPopupProps> = ({ happiness, wealth, onClose, coo
       }}
       onClick={(e) => e.stopPropagation()}
     >
-      <div style={{ marginBottom: 8, fontWeight: 600 }}>Character</div>
+      <div style={{ marginBottom: 8, fontWeight: 600 }}>Monty's Stats</div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>{happinessLabel} Happiness</span>
         <span style={{ color: happinessColor }}>{happiness}</span>
@@ -61,7 +62,21 @@ const StatsPopup: React.FC<StatsPopupProps> = ({ happiness, wealth, onClose, coo
         <span style={{ color: wealthColor }}>{wealth}</span>
       </div>
       <div style={{ textAlign: "right", marginTop: 12 }}>
-        <button onClick={onClose}>Close</button>
+        <button
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            background: "#cbeecdf4",
+            border: "2px solid #84bf86",
+            borderRadius: 8,
+            color: "black",
+            width: "100%",
+            height: 40,
+            padding: 16,
+            boxShadow: "0 6px 18px rgba(0,0,0,0.2)"
+          }}
+          onClick={onClose}>Close</button>
       </div>
     </div>,
     document.body

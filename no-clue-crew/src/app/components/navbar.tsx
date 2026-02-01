@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import StatsPopup from "./statsppup";
-import { useGameStats } from "./GameStatsContext"; // <-- Import the context
+import { useGameStats } from "./gameStatsContext"; // <-- Import the context
 
 const Navbar: React.FC = () => {
   const [showStats, setShowStats] = useState(false);
@@ -10,6 +10,7 @@ const Navbar: React.FC = () => {
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [buttonCoords, setButtonCoords] = useState<{ top: number; left: number; height: number; width: number } | null>(null);
+  const [lifted, setLifted] = useState(false);
 
   const toggleStats = () => {
     if (buttonRef.current) {
@@ -60,18 +61,23 @@ const Navbar: React.FC = () => {
         <button
           ref={buttonRef}
           onClick={toggleStats}
+          onMouseEnter={() => setLifted(true)}
+          onMouseLeave={() => setLifted(false)}
           style={{
             position: "relative",
             background: "#FADADD", // pastel pink
+            border: "2px solid #f3d0d3",
             color: "#4A3F35",
             fontWeight: 500,
-            border: "none",
             borderRadius: 20,
             padding: "10px 18px",
             fontSize: 14,
             cursor: "pointer",
+            fontStyle: "italic",
             boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
             transition: "transform 0.15s ease, box-shadow 0.15s ease",
+            transform: lifted ? "translateY(-2px)" : "none",
+
           }}
         >
           Show Character Stats

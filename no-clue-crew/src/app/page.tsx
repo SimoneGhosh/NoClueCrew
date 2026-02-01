@@ -8,7 +8,7 @@ import Backstory from "./components/backstory";
 import Main from "./components/start";
 import Navbar from "./components/navbar";
 import FinalPage from "./components/finalPage";
-import { GameStatsProvider, useGameStats } from "./components/GameStatsContext";
+import { GameStatsProvider, useGameStats } from "./components/gameStatsContext";
 
 type Stage = "landing" | "intro" | "backstory" | "game" | "gameover";
 
