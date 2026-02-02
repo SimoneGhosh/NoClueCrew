@@ -1,4 +1,6 @@
-##Inspiration 
+## ElleHacks - First Hackathon 
+
+## Inspiration 
 Financial literacy is often taught too late, usually after mistakes have already been made. We were inspired by how games naturally teach through experience rather than instruction. In life-simulation games like _Animal Crossing_ and _BitLife_, players learn systems by interacting with them, experimenting, and seeing outcomes unfold over time.
 
 We wanted to bring that same experiential learning model to financial education. Many kids and teens grow up learning through technology, yet money is still taught in abstract, text-heavy ways. We saw an opportunity to create a space where young people could safely explore financial decisions, see future consequences, and build confidence before facing real-world financial systems. Our core motivation was **empowerment** through understanding, not fear.
